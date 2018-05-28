@@ -1,0 +1,38 @@
+
+on page load
+    - get data stored
+    - maybe use the .on("value")?
+    - put data on page, html
+
+add items to list
+    - collect input into var
+    - clear the input area
+    - push var to the database
+        - save input items
+        - create a unique data-todo item, maybe using a counter++?
+    
+
+get data from database
+    - retreive data
+    - put data into dom
+        - add class( data-todo)
+        - add input var
+        - add button
+        - add checkbox
+
+remove data from dom
+    - use $(docuent).on click because it was created dynamically
+    - use this to identify the data-value of the selected item
+    - remove the item from the database 
+
+
+
+
+var config = {
+  apiKey: "AIzaSyCcAVRVQIfHhZvyDyPUHs6tjxPMBhu2dk4",
+  authDomain: "saving-user-info-practice.firebaseapp.com",
+  databaseURL: "https://saving-user-info-practice.firebaseio.com",
+  projectId: "saving-user-info-practice",
+  storageBucket: "saving-user-info-practice.appspot.com",
+  messagingSenderId: "1051284729157"
+};

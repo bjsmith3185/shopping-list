@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Shopping List</title>
+  
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="input-form">
+            <h2>Enter the store below</h2>
+            <input type="text" id="store-input" name="Enter store here">
+            <br>
+
+            <h2>Enter the item below</h2>
+            <input type="text" id="list-input" name="Enter item here">
+            <br>
+            <h2>Enter the Qty below</h2>
+            <input type="text" id="qty-input" name="Enter how many here">
+            <br>
+            <button class="btn btn-default" id="submit">Submit</button>
+        </div>
+        <br>
+        <br>
+        <div id="list-area">
+            <div>Shopping List</div>
+            <p id="list"></p> 
+        </div>
+    </div>
+  
+
+  <!-- JQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- ================================================================================== -->
+  <script>
+ 
+var config = {
+    apiKey: "AIzaSyCcAVRVQIfHhZvyDyPUHs6tjxPMBhu2dk4",
+    authDomain: "saving-user-info-practice.firebaseapp.com",
+    databaseURL: "https://saving-user-info-practice.firebaseio.com",
+    projectId: "saving-user-info-practice",
+    storageBucket: "saving-user-info-practice.appspot.com",
+    messagingSenderId: "1051284729157"
+  };
+
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+    // database.ref("/walmart").set({
+    //     item: "bread",
+    //     qty: "2",
+    // });
+
+    // database.ref("aldi").set({
+    //     item: "spinach",
+    //     qty: 2
+    // })
+
+    // database.ref("teeter").set({
+    //     eggs: 2,
+    //     bread: 1,
+    //     meat: 4,
+    // })
+
+//-----------------------------------
+
+// var ref = firebase.database().ref("teeter");
+
+// ref.on("value", function(snapshot) {
+//     // console.log(snapshot.val())
+//     var list = snapshot.val();
+//     console.log(list)
+//  });
+
+//--------------end of data retrieval----
+
+
+//-------look thru the database and find each folder
+function putOnPage() {
+
+        var firstFolders = firebase.database().ref();
+        firstFolders.once("value", function(snapshot) {
+        snapshot.forEach(function(child) {
+
+        var shop = child.key;
+      
+        var storeName = $("<div>").text(" " + shop).attr("id", "store-" + shop);
+        // var b = $("<button class='delete'>").text("x").attr("data-index", data);
+        //             p.prepend(b);
+        $("#list").append(storeName);
+
+//--------this area puts the shopping list under the store from above ---
+
+            var ref = firebase.database().ref(shop);
+
+            ref.on("value", function(snapshot) {
+                // console.log(snapshot.val())
+                var list = snapshot.val();
+                console.log("This is List" +list)
+                var counter = 0;
+
+                for(var i in list){
+            //   alert(i); // alerts key
+            //   alert(list[i]); //alerts key's value
+                    counter++;
+                    console.log("this is counter: " + counter);
+                    var key = i;
+                    var value = list[i];
+                    console.log(key);
+                    console.log(value);
+                    var data = "item=" + counter;
+                    console.log(data);
+
+                    var p = $("<p>").text(" " + key + " Qty: " + value);
+                    var b = $("<button class='delete'>").text("x").attr("data-index", data);
+                        p.prepend(b);
+                        $("#store-" + shop).append(p);
+            }
+
+            }); // end of snapshot for items under each store(child)
+
+//--------------- end of the shopping list under store area----
+
+  });  // end of snapshot for each child
+});  // end of loop thru database 
+};  // end of putOnPage function
+
+putOnPage();
+
+
+
+  
+
+//----------this loops thru a folder(teeter) and displays the key/values in the dom
+
+
+// var ref = firebase.database().ref("teeter");
+
+// ref.on("value", function(snapshot) {
+//     // console.log(snapshot.val())
+//     var list = snapshot.val();
+//     console.log("This is List" +list)
+//     var counter = 0;
+
+//     for(var i in list){
+// //   alert(i); // alerts key
+// //   alert(list[i]); //alerts key's value
+//         counter++;
+//         console.log("this is counter: " + counter);
+//         var key = i;
+//         var value = list[i];
+//         console.log(key);
+//         console.log(value);
+//         var data = "item=" + counter;
+//         console.log(data);
+
+//         var p = $("<p>").text(" " + key + " Qty: " + value);
+//         var b = $("<button class='delete'>").text("x").attr("data-index", data);
+//             p.prepend(b);
+//             $("#list").append(p);
+// }
+
+// });
+
+
+
+
+
+//----------- beginning of onclick area to add items -----
+
+ $("#submit").on("click", function(event) {
+        event.preventDefault();
+    
+    var itemInput = $("#list-input").val().trim();
+    var itemQuantity = $("#qty-input").val().trim();
+    var store = $("#store-input").val().trim();
+    console.log("this in the input: " + itemInput);
+    console.log("this is the amount: " + itemQuantity);
+    console.log("the store is: " + store);
+        database.ref(store).update({
+            [itemInput]: itemQuantity,
+        }) // end of push to database
+    
+    putOnPage();
+
+    });  // end of onclick for adding items
+   
+   //------------ end of the onclick area-----------
+
+
+    // $(document).on("click", "button.delete", function() {
+      
+    //     var currentListItem = $(this).val();
+    //     console.log("this is the deleted value: " + currentListItem);
+
+firebase.database().ref("teeter").child("bread").remove();
+
+        // Deletes the item marked for deletion
+        
+
+        //   putOnPage();
+    // });
+
+
+
+
+
+
+  
+  </script>
+
+</body>
+
+</html>
+

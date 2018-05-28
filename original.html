@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Shopping List</title>
+  
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="input-form">
+            <h2>Enter the item to the list below</h2>
+            <input type="text" id="list-input" name="Enter item here">
+            <br>
+            <button class="btn btn-default" id="submit">Submit</button>
+        </div>
+        <br>
+        <br>
+        <div id="list-area">
+            <div>Shopping List</div>
+            <p id="list"></p> 
+        </div>
+    </div>
+  
+
+  <!-- JQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- ================================================================================== -->
+
+  <script>
+    // Initialize Firebase
+    // This is the code we copied and pasted from our app page
+    var config = {
+        apiKey: "AIzaSyCcAVRVQIfHhZvyDyPUHs6tjxPMBhu2dk4",
+        authDomain: "saving-user-info-practice.firebaseapp.com",
+        databaseURL: "https://saving-user-info-practice.firebaseio.com",
+        projectId: "saving-user-info-practice",
+        storageBucket: "saving-user-info-practice.appspot.com",
+        messagingSenderId: "1051284729157"
+    };
+
+    firebase.initializeApp(config);
+
+    // VARIABLES
+    // --------------------------------------------------------------------------------
+
+   
+    var database = firebase.database();
+   
+   
+//---------- get from database and put on page
+    database.ref().on("value", function(snapshot) {
+        console.log(snapshot.val());
+        console.log("this is shoppingItem: " + snapshot.child.val().list);
+
+
+        var shoppingItem = snapshot.child.val().list;
+        var p = $("<p>").text(shoppingItem);
+        var b = $("<button class='delete'>").text("x")//.attr("data-index", counter);
+        p.prepend(b);
+        $("#list").prepend(p);
+
+    }, function(errorObject) {
+
+      // In case of error this will print the error
+      console.log("The read failed: " + errorObject.code);
+    });
+    
+
+// ----------- input area --------
+
+    $("#submit").on("click", function(event) {
+        event.preventDefault();
+    
+    var listInput = $("#list-input").val().trim();
+    console.log("this in the input: " + listInput);
+
+    database.ref().push({
+    list: listInput,
+    
+     
+    });
+   
+    });
+
+//----------- delete list item area -----
+
+    $(document).on("click", "button.delete", function() {
+      
+      var currentListItem = $(this).val();
+      console.log("this is the deleted value: " + currentListItem);
+
+
+
+      // Deletes the item marked for deletion
+     
+
+    //   putOnPage();
+    });
+
+
+
+  </script>
+
+</body>
+
+</html>
