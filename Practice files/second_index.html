@@ -88,9 +88,20 @@ var database = firebase.database();
 
 //-----------------------------------
 
+// var ref = firebase.database().ref("teeter");
+
+// ref.on("value", function(snapshot) {
+//     // console.log(snapshot.val())
+//     var list = snapshot.val();
+//     console.log(list)
+//  });
+
+//--------------end of data retrieval----
 
 
-function putOnPage() {
+//-------look thru the database and find each folder
+
+// function putOnPage() {
 
         var firstFolders = firebase.database().ref();
         firstFolders.once("value", function(snapshot) {
@@ -99,7 +110,8 @@ function putOnPage() {
         var shop = child.key;
       
         var storeName = $("<div>").text(" " + shop).attr("id", "store-" + shop);
-        
+        // var b = $("<button class='delete'>").text("x").attr("data-index", data);
+        //             p.prepend(b);
         $("#list").append(storeName);
 
 //--------this area puts the shopping list under the store from above ---
@@ -113,7 +125,8 @@ function putOnPage() {
                 var counter = 0;
 
                 for(var i in list){
-          
+            //   alert(i); // alerts key
+            //   alert(list[i]); //alerts key's value
                     counter++;
                     console.log("this is counter: " + counter);
                     var key = i;
@@ -127,7 +140,11 @@ function putOnPage() {
                 //--- try to put the store name as an id or data value below
                     var p = $("<p>").attr("id", key).text(" " + key + " Qty: " + value);
 
-                 
+                    //---------------REMOVED VAR DATA AND INSERTED VAR KEY
+                    // var b = $("<button class='delete'>").text("✓").attr("data-key", shop + "-" + key);
+
+                    // TRING TO ADD TWO DATA VALUES ONE KEY AND THE OTHER SHOP
+
             var b = $("<button class='delete'>").text("✓").attr("data-key", key).attr("data-shop", shop);
 
                         p.prepend(b);
@@ -140,9 +157,47 @@ function putOnPage() {
 
   });  // end of snapshot for each child
 });  // end of loop thru database 
-};  // end of putOnPage function
+// };  // end of putOnPage function
 
-putOnPage();
+// putOnPage();
+
+
+
+  
+
+//----------this loops thru a folder(teeter) and displays the key/values in the dom
+
+
+// var ref = firebase.database().ref("teeter");
+
+// ref.on("value", function(snapshot) {
+//     // console.log(snapshot.val())
+//     var list = snapshot.val();
+//     console.log("This is List" +list)
+//     var counter = 0;
+
+//     for(var i in list){
+// //   alert(i); // alerts key
+// //   alert(list[i]); //alerts key's value
+//         counter++;
+//         console.log("this is counter: " + counter);
+//         var key = i;
+//         var value = list[i];
+//         console.log(key);
+//         console.log(value);
+//         var data = "item=" + counter;
+//         console.log(data);
+
+//         var p = $("<p>").text(" " + key + " Qty: " + value);
+//         var b = $("<button class='delete'>").text("x").attr("data-index", data);
+//             p.prepend(b);
+//             $("#list").append(p);
+// }
+
+// });
+
+
+
 
 
 //----------- beginning of onclick area to add items -----
@@ -160,13 +215,7 @@ putOnPage();
             [itemInput]: itemQuantity,
         }) // end of push to database
     
-// ---------- ADD A CLEAR DOM FUNCTION
-
-//   $("#list").remove();
-
- clearDom();
-
-    putOnPage();
+    // putOnPage();
 
     });  // end of onclick for adding items
    
@@ -190,25 +239,16 @@ console.log("? this is key " + key);
   if(confirm('Are you sure?')){
     firebase.database().ref(shop).child(key).remove();
 
-    // $("#" + key).remove();
-    clearDom();
-    // $("#list").empty();
+    $("#" + key).remove();
 
-//---------- ADD A CLEAR DOM FUNCTION
+    // $("#list").remove();
 
-    putOnPage();
+    // putOnPage();
 };
 
 });
 
 });  // end document ready
-
-
-
-
-function clearDom () {
-    $("#list").empty();
-};
 
 // Clear the entire dom upon the delete onclick!
 

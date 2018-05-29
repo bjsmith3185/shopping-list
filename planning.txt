@@ -1,7 +1,30 @@
 
 
+when adding item
+    - adds but also doubles all existing items
+
+wen removing items
+    - removes item, if there is a double item that one of them stays
+
+
+
+---------------------------
+try having a function to put everything on the page on document load. put 
+this in a function and call the function once.
+
+have a .on (child_changed) function to call when the user submits or deletes an item.
+
+can i add jquery .remove() and find the cooresponding id or class of the dom element and remove it that way?
+
+
+
 try adding the on document load function for the putOnPage()
  this may keep the items from showing up twice after one is deleted
+
+
+
+ or, delete all items under the store folder
+   let the putonpage () repopulate it 
 
 
 
