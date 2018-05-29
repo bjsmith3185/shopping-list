@@ -62,13 +62,17 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
     // database.ref("/walmart").set({
-    //     item: "bread",
-    //     qty: "2",
+    //     peanuts: 1,
+    //         eggs: 5,
+    //         tomato: 1,
+    //         cheese: 2,
     // });
 
     // database.ref("aldi").set({
-    //     item: "spinach",
-    //     qty: 2
+    //    spinach: 1,
+    //         creamer: 1,
+    //         hotdogs: 1,
+    //         sauce: 2,
     // })
 
     // database.ref("teeter").set({
@@ -126,8 +130,17 @@ function putOnPage() {
                     var data = "item=" + counter;
                     console.log(data);
 
-                    var p = $("<p>").text(" " + key + " Qty: " + value);
-                    var b = $("<button class='delete'>").text("x").attr("data-index", data);
+                    // var p = $("<p>").text(" " + key + " Qty: " + value);
+                //--- try to put the store name as an id or data value below
+                    var p = $("<p>").attr("id", key).text(" " + key + " Qty: " + value);
+
+                    //---------------REMOVED VAR DATA AND INSERTED VAR KEY
+                    // var b = $("<button class='delete'>").text("✓").attr("data-key", shop + "-" + key);
+
+                    // TRING TO ADD TWO DATA VALUES ONE KEY AND THE OTHER SHOP
+
+            var b = $("<button class='delete'>").text("✓").attr("data-key", key).attr("data-shop", shop);
+
                         p.prepend(b);
                         $("#store-" + shop).append(p);
             }
@@ -203,19 +216,53 @@ putOnPage();
    //------------ end of the onclick area-----------
 
 
-    // $(document).on("click", "button.delete", function() {
-      
-    //     var currentListItem = $(this).val();
-    //     console.log("this is the deleted value: " + currentListItem);
+    $(document).on("click", "button.delete", function(event) {
+        event.preventDefault();
+      alert("down")
+    // //     var currentListItem = $(this).val();
+    // //     console.log("this is the deleted value: " + currentListItem);
+//================================
+// var key = $(this).data('key');
 
-firebase.database().ref("teeter").child("bread").remove();
+var key = $(this).attr("data-key");
 
+var shop = $(this).attr("data-shop");
+
+console.log("? this is key " + key);
+// var key should be store-item
+  if(confirm('Are you sure?')){
+    firebase.database().ref(shop).child(key).remove();
+
+    $("#" + key).remove();
+
+    $("#list").remove();
+
+    putOnPage();
+};
+
+});
+// Clear the entire dom upon the delete onclick!
+
+
+    // firebase.database().ref("movies").child(key).remove();
+
+
+
+// firebase.database().ref("teeter").child("bread").remove();
+//=====================================
         // Deletes the item marked for deletion
         
 
-        //   putOnPage();
-    // });
+        
 
+
+//  $(document.body).on("click", ".checkbox", function() {
+//     alert("down")
+// Get the number of the button from its data attribute and hold in a variable called  toDoNumber.
+// var toDoNumber = $(this).attr("data-to-do");
+
+// Select and Remove the specific <p> element that previously held the to do item number.
+// $("#item-" + toDoNumber).remove();
 
 
 
