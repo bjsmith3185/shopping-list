@@ -22,7 +22,11 @@ function putOnPage() {
 
     var shop = child.key;
     
-    var storeName = $("<div>").text(" " + shop).attr("id", "store-" + shop);
+    var storeName = $("<div>").attr("class", "store");
+
+            var a = $("<p>").text(" " + shop).attr("class", "store-name").attr("id", "store-" + shop);
+
+            storeName.append(a);
     
         $("#list").append(storeName);
 
@@ -39,7 +43,7 @@ function putOnPage() {
             var key = i;
             var value = list[i];
             var data = "item=" + counter;
-            var p = $("<p>").attr("id", key).text(" " + key + " Qty: " + value);
+            var p = $("<p>").attr("id", key).text("  " + key + "  :  " + value).attr("class", "list-items");
             var b = $("<button class='delete'>").text("✓").attr("data-key", key).attr("data-shop", shop);
                 p.prepend(b);
                 $("#store-" + shop).append(p);

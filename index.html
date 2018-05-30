@@ -14,6 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- css file -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="style.css">
   
     <!-- Firebase Reference -->
@@ -22,58 +23,63 @@
 
 <body>
 
-    <!-- <div class="container"> -->
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h1 class="panel-title" id="title"><span id="title-1">Get List,</span><span id="title-2"> powered by firebase.</span></h1>
+   
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default" id="panel-list-body">
+            <div class="panel-heading" id="heading-box">
+                <h1 class="panel-title" id="title"><span id="title-1">Get List,</span><span id="title-2"> powered by firebase.</span></h1>
+            </div>
+            <div class="panel-body" id="input-body">
+                <div class="row" id="top-row">
+                    <div class="col-xs-3 box">
+                        <div id="store-title">Store Name</div>
                     </div>
-                    <div class="panel-body">
-                        <div class="row" id="top-row">
-                            <div class="col-xs-3 box">
-                                <div id="store-title">Store Name</div>
-                            </div>
-                            <div class="col-xs-3 box">
-                                <div id="item-title">Item</div>
-                            </div>
-                            <div class="col-xs-3 box">
-                                <div id="notes-title">Qty/Notes</div>
-                            </div>
-                            <div class="col-xs-3 box"></div>
+                    <div class="col-xs-3 box">
+                        <div id="item-title">Item</div>
+                    </div>
+                    <div class="col-xs-3 box">
+                        <div id="notes-title">Qty/Notes</div>
+                    </div>
+                    <div class="col-xs-3 box"></div>
 
-                        </div>
+                </div>
 
-                        <div class="row" id="bottom-row">
-                            <div class="col-xs-3 box">
-                                <input type="text" id="store-input" name="Enter store here">
-                            </div>
-                            <div class="col-xs-3 box">
-                                <input type="text" id="list-input" name="Enter item here">
-                            </div>
-                            <div class="col-xs-3 box">
-                                <input type="text" id="qty-input" name="Enter how many here">
-                            </div>
-                            <div class="col-xs-3 box">
-                                <button class="btn btn-default" id="submit">Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                            </div>
-
-                        </div>
-                    
+                <div class="row" id="bottom-row">
+                    <div class="col-xs-3 box">
+                        <input type="text" id="store-input" placeholder=" Enter store">
+                    </div>
+                    <div class="col-xs-3 box">
+                        <input type="text" id="list-input" placeholder=" Enter item">
+                    </div>
+                    <div class="col-xs-3 box">
+                        <input type="text" id="qty-input" placeholder=" Enter Qty/notes">
+                    </div>
+                    <div class="col-xs-3 box">
+                        <button class="w3-button w3-border w3-xlarge" id="submit">Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <p id="list-heading">Shopping List</p>
+        <div id="list"></div>
+    </div>
+    <div class="col-xs-1"></div>
+</div>
+
+        
+   
         
         
-        <br>
-        <div id="list-area">
-            <div>Shopping List</div>
-            <p id="list"></p> 
-        </div>
-    <!-- </div> -->
+       
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="ja.js"></script>
