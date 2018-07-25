@@ -14,10 +14,10 @@ $(document).ready(function(){
 
 var database = firebase.database();
 
-function putOnPage() {
+function putOnPage(snapshot) {
 
-    var firstFolders = firebase.database().ref();
-        firstFolders.once("value", function(snapshot) {
+    // var firstFolders = firebase.database().ref();
+        // firstFolders.once("value", function(snapshot) {
         snapshot.forEach(function(child) {
 
     var shop = child.key;
@@ -32,10 +32,10 @@ function putOnPage() {
 
 //--------this area puts the shopping list under the store from above ---
 
-    var ref = firebase.database().ref(shop);
+    // var ref = firebase.database().ref(shop);
 //---- changed .on to .once and it did not repeat the existing list itmes, but wont update with added items
-        ref.once("value", function(snapshot) {
-    var list = snapshot.val();
+        // ref.once("value", function(snapshot) {
+    var list = snapshot.child(shop).val();
     var counter = 0;
 
         for(var i in list){
@@ -48,15 +48,20 @@ function putOnPage() {
                 p.prepend(b);
                 $("#store-" + shop).append(p);
             }
-        }); // end of snapshot for items under each store(child)
+        // }); // end of snapshot for items under each store(child)
 
 //--------------- end of the shopping list under store area----
 
          });  // end of snapshot for each child
-    });  // end of loop thru database 
+    // });  // end of loop thru database 
 };  // end of putOnPage function
 
-putOnPage();
+// putOnPage();
+
+database.ref().on("value", function(snapshot) {
+    clearDom();
+    putOnPage(snapshot);
+})
 
 //----------- beginning of onclick area to add items -----
 
@@ -76,8 +81,8 @@ putOnPage();
         [itemInput]: itemQuantity,
         }); // end of push to database
     
-        clearDom();
-        putOnPage();
+        // clearDom();
+        // putOnPage();
 
         $("#list-input").val('');
         $("#qty-input").val('');
@@ -95,8 +100,8 @@ $(document).on("click", "button.delete", function(event) {
         if(confirm('Are you sure?')){
             firebase.database().ref(shop).child(key).remove();
  
-        clearDom();
-        putOnPage();
+        // clearDom();
+        // putOnPage();
         }; // end of if statement
 }); // end of delete function onclick
 
